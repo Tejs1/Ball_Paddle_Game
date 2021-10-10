@@ -34,13 +34,14 @@ function moveEverthing() {
 }
 //function to group all draw code
 function drawEverthing() {
-  canvasContext.fillStyle = "black";
-  canvasContext.fillRect(canvasX, canvasY, canvas.width, canvas.height);
-  //move and resize the box (paddle!)
-  canvasContext.fillStyle = "white";
-  canvasContext.fillRect(padddle1X, padddle1Y, paddleWidth, 100);
-  canvasContext.fillStyle = "white";
-  canvasContext.fillRect(padddle2X, padddle2Y, paddleWidth, 100);
-  canvasContext.fillStyle = "red";
-  canvasContext.fillRect(ballX, ballY, 10, 10);
+  colorRect(canvasX, canvasY, canvas.width, canvas.height, "black");
+  colorRect(padddle1X, padddle1Y, paddleWidth, 100, "white");
+  colorRect(padddle2X, padddle2Y, paddleWidth, 100, "white");
+  colorRect(ballX, ballY, 10, 10, "red");
 }
+function colorRect(x, y, width, height, color) {
+  canvasContext.fillStyle = color;
+  canvasContext.fillRect(x, y, width, height);
+}
+
+//move the box (paddle!)
