@@ -4,7 +4,8 @@ let ballX = 50;
 let ballY = 50;
 
 window.onload = function () {
-  setInterval(drawEverthing, 10);
+  let fps = 60;
+  setInterval(drawEverthing, 1000 / fps);
 };
 
 //function to group all draw code
