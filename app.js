@@ -6,12 +6,19 @@ let ballY = 50;
 window.onload = function () {
   //setting changes fps
   let fps = 60;
-  setInterval(drawEverthing, 1000 / fps);
+  setInterval(callFunctions, 1000 / fps);
 };
 
+// seperating move code from the Draw code
+function callFunctions() {
+  moveEverthing();
+  drawEverthing();
+}
+function moveEverthing() {
+  ballX = ballX + 1;
+}
 //function to group all draw code
 function drawEverthing() {
-  ballX = ballX + 1;
   canvasContext.fillStyle = "black";
   canvasContext.fillRect(0, 0, canvas.width, canvas.height);
   //move and resize the box (paddle!)
