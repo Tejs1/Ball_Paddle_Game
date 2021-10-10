@@ -39,6 +39,7 @@ function drawEverthing() {
   colorRect(padddle2X, padddle2Y, paddleWidth, 100, "white");
   colorRect(ballX, ballY, 10, 10, "red");
 }
+//function for drawing filled shapes
 function colorRect(x, y, width, height, color) {
   canvasContext.fillStyle = color;
   canvasContext.fillRect(x, y, width, height);
