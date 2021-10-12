@@ -21,6 +21,11 @@ window.onload = function () {
     moveEverthing();
     drawEverthing();
   }, 1000 / fps);
+
+  canvas.addEventListener("mousemove", (e) => {
+    let mousePose = calculateMousePosition(e);
+    padddle1Y = mousePose.y;
+  });
 };
 
 // seperating move code from the Draw code
@@ -67,3 +72,14 @@ function colorRect(x, y, width, height, color) {
 }
 
 //move the box (paddle!)
+// mouse movement calcilation
+function calculateMousePosition(e) {
+  let rect = canvas.getBoundingClientRect();
+  let root = document.documentElement;
+  let mouseX = e.clientX - rect.left - root.scrollLeft;
+  let mouseY = e.clientY - rect.left - root.scrollTop;
+  return {
+    x: mouseX,
+    y: mouseY,
+  };
+}
