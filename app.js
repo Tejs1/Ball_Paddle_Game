@@ -4,13 +4,13 @@ let ballX = 50;
 let ballY = 250;
 let ballSpeedX = 4;
 let ballSpeedY = 1;
-let padddle1X = 10;
-let padddle2X = 780;
+let paddle1X = 10;
+let paddle2X = 780;
 let canvasX = 0;
 let canvasY = 0;
 let paddleWidth = 10;
-let padddle1Y = 200;
-let padddle2Y = 200;
+let paddle1Y = 200;
+let paddle2Y = 200;
 const space = 10;
 const paddleHeight = 100;
 
@@ -24,7 +24,7 @@ window.onload = function () {
 
   canvas.addEventListener("mousemove", (e) => {
     let mousePose = calculateMousePosition(e);
-    padddle1Y = mousePose.y;
+    paddle1Y = mousePose.y - paddleHeight / 2;
   });
 };
 
@@ -51,9 +51,9 @@ function drawEverthing() {
   //blackanvas
   colorRect(canvasX, canvasY, canvas.width, canvas.height, "black");
   //left paddle
-  colorRect(padddle1X, padddle1Y, paddleWidth, paddleHeight, "white");
+  colorRect(paddle1X, paddle1Y, paddleWidth, paddleHeight, "white");
   //right paddle
-  colorRect(padddle2X, padddle2Y, paddleWidth, paddleHeight, "white");
+  colorRect(paddle2X, paddle2Y, paddleWidth, paddleHeight, "white");
   //ball
   colorCircle(ballX, ballY, 10, "white");
 }
