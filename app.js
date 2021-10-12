@@ -2,8 +2,8 @@ const canvas = document.getElementById("gameCanvas");
 const canvasContext = canvas.getContext("2d");
 let ballX = 50;
 let ballY = 250;
-let ballSpeedX = 10;
-let ballSpeedY = 1;
+let ballSpeedX = 5;
+let ballSpeedY = 2;
 let paddle1X = 10;
 let paddle2X = 780;
 let canvasX = 0;
@@ -11,12 +11,13 @@ let canvasY = 0;
 let paddleWidth = 10;
 let paddle1Y = 200;
 let paddle2Y = 200;
+const radius = 10;
 const space = 10;
 const paddleHeight = 100;
 
 window.onload = function () {
   //setting changes fps
-  let fps = 60;
+  let fps = 55;
   setInterval(function () {
     moveEverthing();
     drawEverthing();
@@ -31,22 +32,40 @@ window.onload = function () {
 // seperating move code from the Draw code
 
 function moveEverthing() {
+  paddle2Y = ballY - paddleHeight * Math.sin(ballY / 600);
+  // console.log(Math.sin(ballY / 600));
   ballX = ballX + ballSpeedX;
   if (ballX >= canvas.width - 2 * paddleWidth - space) {
-    ballSpeedX = -ballSpeedX;
-  }
-  if (ballX <= canvasX + 2 * paddleWidth + space) {
-    if (ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
+    if (ballY > paddle2Y && ballY < paddle2Y + paddleHeight) {
+      if (Math.random() * 10 > 7) {
+        // ballSpeedY = ballSpeedY - ballSpeedY * Math.random();
+        ballSpeedY = -ballSpeedY;
+      }
       ballSpeedX = -ballSpeedX;
     } else {
       resetBall();
     }
   }
+  if (ballX <= canvasX + 2 * paddleWidth + space) {
+    if (ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
+      //changing Y direction
+      if (ballY > paddle1Y + paddleHeight / 2) {
+        // ballSpeedY = ballSpeedY + ballSpeedY * Math.random();
+        ballSpeedY = -ballSpeedY;
+      }
+      ballSpeedX = -ballSpeedX;
+    } else {
+      resetBall();
+      // ballSpeedX = -ballSpeedX;
+    }
+  }
   ballY = ballY + ballSpeedY;
   if (ballY > canvas.height - 10) {
+    // console.log(ballSpeedY);
     ballSpeedY = -ballSpeedY;
   }
   if (ballY < canvasY + 10) {
+    // console.log(ballSpeedY);
     ballSpeedY = -ballSpeedY;
   }
 }
@@ -59,10 +78,10 @@ function drawEverthing() {
   //right paddle
   colorRect(paddle2X, paddle2Y, paddleWidth, paddleHeight, "white");
   //ball
-  colorCircle(ballX, ballY, 10, "white");
+  colorCircle(ballX, ballY, radius, "white");
 }
 // function for drawing circle
-function colorCircle(centerX, centerY, radius, drawColor) {
+function colorCircle(centerX, centerY, drawColor) {
   canvasContext.fillStyle = drawColor;
   canvasContext.beginPath();
   canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
@@ -89,7 +108,8 @@ function calculateMousePosition(e) {
 
 //ball reset
 function resetBall() {
-  ballY = 500 * Math.random() + 10;
-  ballX = canvas.width - 2 * paddleWidth - space;
+  ballY = 500 * Math.random() + radius / 2;
+  ballX = canvas.width - 2 * paddleWidth - space - radius;
   paddle2Y = ballY - paddleHeight / 2;
+  // ballSpeedX = -ballSpeedX;
 }
