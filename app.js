@@ -2,7 +2,7 @@ const canvas = document.getElementById("gameCanvas");
 const canvasContext = canvas.getContext("2d");
 let ballX = 50;
 let ballY = 250;
-let ballSpeedX = 4;
+let ballSpeedX = 10;
 let ballSpeedY = 1;
 let paddle1X = 10;
 let paddle2X = 780;
@@ -21,7 +21,7 @@ window.onload = function () {
     moveEverthing();
     drawEverthing();
   }, 1000 / fps);
-
+  //move the box (paddle!)
   canvas.addEventListener("mousemove", (e) => {
     let mousePose = calculateMousePosition(e);
     paddle1Y = mousePose.y - paddleHeight / 2;
@@ -36,7 +36,11 @@ function moveEverthing() {
     ballSpeedX = -ballSpeedX;
   }
   if (ballX <= canvasX + 2 * paddleWidth + space) {
-    ballSpeedX = -ballSpeedX;
+    if (ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
+      ballSpeedX = -ballSpeedX;
+    } else {
+      resetBall();
+    }
   }
   ballY = ballY + ballSpeedY;
   if (ballY > canvas.height - 10) {
@@ -71,7 +75,6 @@ function colorRect(x, y, width, height, color) {
   canvasContext.fillRect(x, y, width, height);
 }
 
-//move the box (paddle!)
 // mouse movement calcilation
 function calculateMousePosition(e) {
   let rect = canvas.getBoundingClientRect();
@@ -82,4 +85,11 @@ function calculateMousePosition(e) {
     x: mouseX,
     y: mouseY,
   };
+}
+
+//ball reset
+function resetBall() {
+  ballY = 500 * Math.random() + 10;
+  ballX = canvas.width - 2 * paddleWidth - space;
+  paddle2Y = ballY - paddleHeight / 2;
 }
