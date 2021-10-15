@@ -44,18 +44,22 @@ function moveEverthing() {
   //Paddle Right
   ballY = ballY + ballSpeedY;
 
+  //Ball movement
   ballX = ballX + ballSpeedX;
+  //ball reaches Right side
   if (ballX >= paddle2X - paddleWidth) {
-    //ball hits paddle
+    // if ball hits paddle
     if (ballY > paddle2Y && ballY < paddle2Y + paddleHeight) {
       ballSpeedX = -ballSpeedX;
-      // console.log(Math.random() * 10);
+      // Change speed by random
       if (Math.random() * 10 > 4) {
+        //increases Speed
         if (ballSpeedY > 0) {
           ballSpeedY += defaultSpeed * (Math.random() + 0.5);
         } else {
           ballSpeedY -= defaultSpeed * (Math.random() + 0.5);
         }
+        //decreases Speed
       } else {
         if (ballSpeedY > 0) {
           ballSpeedY -= defaultSpeed * (Math.random() + 0.5);
@@ -69,7 +73,9 @@ function moveEverthing() {
       resetBall();
     }
   }
+  //ball reaches Left side
   if (ballX <= paddle1X + 3 * paddleWidth) {
+    //if ball hits paddle
     if (ballY + radius > paddle1Y && ballY + radius < paddle1Y + paddleHeight) {
       //changing Y direction
       if (ballY > paddle1Y + paddleHeight / 2) {
@@ -82,7 +88,7 @@ function moveEverthing() {
   if (ballX < -200) {
     resetBall();
   }
-
+  //change direction when hits top botoom
   if (ballY >= canvas.height - 2 * radius) {
     ballSpeedY = -ballSpeedY;
   }
