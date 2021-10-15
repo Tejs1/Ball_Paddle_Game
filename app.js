@@ -3,7 +3,7 @@ const canvasContext = canvas.getContext("2d");
 let ballX = 50;
 let ballY = 250;
 let ballSpeedX = 10;
-let ballSpeedY = 2;
+let ballSpeedY = 6;
 let paddle1X = 10;
 let paddle2X = 780;
 let canvasX = 0;
@@ -32,14 +32,21 @@ window.onload = function () {
 // seperating move code from the Draw code
 
 function moveEverthing() {
-  paddle2Y = ballY - paddleHeight * Math.sin(ballY / 600);
+  const paddleCenter = paddleHeight / 2;
+  if (ballY < paddleCenter + paddle2Y || ballY > paddleCenter + paddle2Y) {
+    paddle2Y = ballY - paddleHeight * Math.sin(ballY / 600);
+  }
+
+  // paddle2Y = ballY - paddleCenter;
   // console.log(Math.sin(ballY / 600));
   ballX = ballX + ballSpeedX;
   if (ballX >= canvas.width - 2 * paddleWidth - space) {
     if (ballY > paddle2Y && ballY < paddle2Y + paddleHeight) {
-      if (Math.random() * 10 > 7) {
-        // ballSpeedY = ballSpeedY - ballSpeedY * Math.random();
+      if (Math.random() * 10 > 4) {
+        ballSpeedY = ballSpeedY + ballSpeedY * Math.random();
         ballSpeedY = -ballSpeedY;
+      } else {
+        ballSpeedY = ballSpeedY - ballSpeedY * Math.random();
       }
       ballSpeedX = -ballSpeedX;
     } else {
