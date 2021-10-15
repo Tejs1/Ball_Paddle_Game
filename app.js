@@ -1,50 +1,54 @@
 const canvas = document.getElementById("gameCanvas");
 const canvasContext = canvas.getContext("2d");
-let ballX = 50;
-let ballY = 250;
-let ballSpeedX = 10;
 const defaultSpeed = 5;
-let ballSpeedY = defaultSpeed;
-let paddle1X = 10;
-let paddle2X = 780;
-let canvasX = 0;
-let canvasY = 0;
-let paddleWidth = 10;
-let paddle1Y = 200;
-let paddle2Y = 200;
 const radius = 10;
 const space = 10;
 const paddleHeight = 100;
+const paddleWidth = 10;
+let ballX = 500;
+let ballY = 250;
+let ballSpeedX = 10;
+let ballSpeedY = defaultSpeed;
+let paddle1X = 30;
+let paddle2X = canvas.width - space - paddleWidth / 2;
+let canvasX = 0;
+let canvasY = 0;
+let paddle1Y = 200;
+let paddle2Y = 200;
+// start = true;
 
 window.onload = function () {
   //setting changes fps
-  let fps = 55;
+  let fps = 70;
   setInterval(function () {
-    moveEverthing();
     drawEverthing();
+    if (start) {
+      moveEverthing();
+    }
   }, 1000 / fps);
   //move the box (paddle!)
-  canvas.addEventListener("mousemove", (e) => {
-    let mousePose = calculateMousePosition(e);
-    // paddle1Y = mousePose.y - paddleHeight / 2;
-  });
+
+  console.log("ball speed " + ballSpeedX);
 };
 
 // seperating move code from the Draw code
 
 function moveEverthing() {
-  paddle1Y = ballY - paddleHeight / 2;
+  //paddle movement
+  //Paddle Left
+  canvas.addEventListener("mousemove", (e) => {
+    let mousePose = calculateMousePosition(e);
+    paddle1Y = mousePose.y - paddleHeight / 2;
+  });
+
+  //Paddle Right
   ballY = ballY + ballSpeedY;
-  // const paddle2Center = paddle2Y + paddleHeight / 2;
 
-  paddle2Y = ballY - paddleHeight * Math.sin(ballY / 600);
-
-  // paddle2Y = ballY - paddleCenter;
-  // console.log(Math.sin(ballY / 600));
   ballX = ballX + ballSpeedX;
-  if (ballX >= canvas.width - 2 * paddleWidth - space) {
+  if (ballX >= paddle2X - paddleWidth) {
     //ball hits paddle
     if (ballY > paddle2Y && ballY < paddle2Y + paddleHeight) {
+      ballSpeedX = -ballSpeedX;
       // console.log(Math.random() * 10);
       if (Math.random() * 10 > 4) {
         if (ballSpeedY > 0) {
@@ -59,30 +63,30 @@ function moveEverthing() {
           ballSpeedY += defaultSpeed * (Math.random() + 0.5);
         }
       }
-      ballSpeedX = -ballSpeedX;
+
       console.log(ballSpeedY);
     } else {
       resetBall();
     }
   }
-  if (ballX <= canvasX + 2 * paddleWidth + space) {
-    if (ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
+  if (ballX <= paddle1X + 3 * paddleWidth) {
+    if (ballY + radius > paddle1Y && ballY + radius < paddle1Y + paddleHeight) {
       //changing Y direction
       if (ballY > paddle1Y + paddleHeight / 2) {
         // ballSpeedY = ballSpeedY + ballSpeedY * Math.random();
         // ballSpeedY = -ballSpeedY;
       }
       ballSpeedX = -ballSpeedX;
-    } else {
-      resetBall();
-      // ballSpeedX = -ballSpeedX;
     }
   }
+  if (ballX < -200) {
+    resetBall();
+  }
 
-  if (ballY > canvas.height - 10) {
+  if (ballY >= canvas.height - 2 * radius) {
     ballSpeedY = -ballSpeedY;
   }
-  if (ballY < canvasY + 10) {
+  if (ballY < canvasY + 2 * radius) {
     ballSpeedY = -ballSpeedY;
   }
 }
@@ -125,9 +129,8 @@ function calculateMousePosition(e) {
 
 //ball reset
 function resetBall() {
-  ballY = 500 * Math.random() + radius / 2;
-  ballX = canvas.width - 2 * paddleWidth - space - radius;
+  ballY = 500 * Math.random();
+  ballX = paddle2X - radius - space;
   paddle2Y = ballY - paddleHeight / 2;
-  // ballSpeedX = -ballSpeedX;
-  ballSpeedY = defaultSpeed;
+  ballSpeedY = -defaultSpeed;
 }
