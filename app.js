@@ -3,7 +3,8 @@ const canvasContext = canvas.getContext("2d");
 let ballX = 50;
 let ballY = 250;
 let ballSpeedX = 10;
-let ballSpeedY = 6;
+const defaultSpeed = 5;
+let ballSpeedY = defaultSpeed;
 let paddle1X = 10;
 let paddle2X = 780;
 let canvasX = 0;
@@ -25,30 +26,41 @@ window.onload = function () {
   //move the box (paddle!)
   canvas.addEventListener("mousemove", (e) => {
     let mousePose = calculateMousePosition(e);
-    paddle1Y = mousePose.y - paddleHeight / 2;
+    // paddle1Y = mousePose.y - paddleHeight / 2;
   });
 };
 
 // seperating move code from the Draw code
 
 function moveEverthing() {
-  const paddleCenter = paddleHeight / 2;
-  if (ballY < paddleCenter + paddle2Y || ballY > paddleCenter + paddle2Y) {
-    paddle2Y = ballY - paddleHeight * Math.sin(ballY / 600);
-  }
+  paddle1Y = ballY - paddleHeight / 2;
+  ballY = ballY + ballSpeedY;
+  // const paddle2Center = paddle2Y + paddleHeight / 2;
+
+  paddle2Y = ballY - paddleHeight * Math.sin(ballY / 600);
 
   // paddle2Y = ballY - paddleCenter;
   // console.log(Math.sin(ballY / 600));
   ballX = ballX + ballSpeedX;
   if (ballX >= canvas.width - 2 * paddleWidth - space) {
+    //ball hits paddle
     if (ballY > paddle2Y && ballY < paddle2Y + paddleHeight) {
+      // console.log(Math.random() * 10);
       if (Math.random() * 10 > 4) {
-        ballSpeedY = ballSpeedY + ballSpeedY * Math.random();
-        ballSpeedY = -ballSpeedY;
+        if (ballSpeedY > 0) {
+          ballSpeedY += defaultSpeed * (Math.random() + 0.5);
+        } else {
+          ballSpeedY -= defaultSpeed * (Math.random() + 0.5);
+        }
       } else {
-        ballSpeedY = ballSpeedY - ballSpeedY * Math.random();
+        if (ballSpeedY > 0) {
+          ballSpeedY -= defaultSpeed * (Math.random() + 0.5);
+        } else {
+          ballSpeedY += defaultSpeed * (Math.random() + 0.5);
+        }
       }
       ballSpeedX = -ballSpeedX;
+      console.log(ballSpeedY);
     } else {
       resetBall();
     }
@@ -58,7 +70,7 @@ function moveEverthing() {
       //changing Y direction
       if (ballY > paddle1Y + paddleHeight / 2) {
         // ballSpeedY = ballSpeedY + ballSpeedY * Math.random();
-        ballSpeedY = -ballSpeedY;
+        // ballSpeedY = -ballSpeedY;
       }
       ballSpeedX = -ballSpeedX;
     } else {
@@ -66,13 +78,11 @@ function moveEverthing() {
       // ballSpeedX = -ballSpeedX;
     }
   }
-  ballY = ballY + ballSpeedY;
+
   if (ballY > canvas.height - 10) {
-    // console.log(ballSpeedY);
     ballSpeedY = -ballSpeedY;
   }
   if (ballY < canvasY + 10) {
-    // console.log(ballSpeedY);
     ballSpeedY = -ballSpeedY;
   }
 }
@@ -119,4 +129,5 @@ function resetBall() {
   ballX = canvas.width - 2 * paddleWidth - space - radius;
   paddle2Y = ballY - paddleHeight / 2;
   // ballSpeedX = -ballSpeedX;
+  ballSpeedY = defaultSpeed;
 }
