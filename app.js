@@ -1,21 +1,22 @@
 const canvas = document.getElementById("gameCanvas");
 const canvasContext = canvas.getContext("2d");
+const canvasX = 0;
+const canvasY = 0;
 const defaultSpeed = 5;
 const radius = 10;
 const space = 10;
 const paddleHeight = 100;
 const paddleWidth = 10;
+const paddle1X = 30;
+const paddle2X = canvas.width - space - paddleWidth / 2;
+
 let ballX = 500;
 let ballY = 250;
 let ballSpeedX = 10;
 let ballSpeedY = defaultSpeed;
-let paddle1X = 30;
-let paddle2X = canvas.width - space - paddleWidth / 2;
-let canvasX = 0;
-let canvasY = 0;
 let paddle1Y = 200;
 let paddle2Y = 200;
-// start = true;
+start = false;
 
 window.onload = function () {
   //setting changes fps
@@ -88,7 +89,7 @@ function moveEverthing() {
   if (ballX < -200) {
     resetBall();
   }
-  //change direction when hits top botoom
+  //changes direction when hits top botoom
   if (ballY >= canvas.height - 2 * radius) {
     ballSpeedY = -ballSpeedY;
   }
@@ -96,6 +97,7 @@ function moveEverthing() {
     ballSpeedY = -ballSpeedY;
   }
 }
+
 //function to group all draw code
 function drawEverthing() {
   //blackanvas
@@ -121,7 +123,7 @@ function colorRect(x, y, width, height, color) {
   canvasContext.fillRect(x, y, width, height);
 }
 
-// mouse movement calcilation
+// mouse movement calculation
 function calculateMousePosition(e) {
   let rect = canvas.getBoundingClientRect();
   let root = document.documentElement;
