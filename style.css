@@ -1,22 +1,26 @@
 * {
-  background: black;
+  background: rgb(255, 255, 255);
   margin: 0;
   overflow-y: hidden;
 }
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 canvas {
-  margin: 0%;
-  padding: 0;
-  border: none;
+  position: absolute;
+  top: 5rem;
+  left: 5rem;
 }
-
 .container {
   position: absolute;
-  z-index: 1;
-  color: aliceblue;
+  text-align: center;
+  top: 10rem;
+  right: 12rem;
+  padding: 2rem;
+  width: 20vw;
+}
+p {
+  font-size: 2rem;
+}
+
+h1 {
+  font-size: 3rem;
 }
